@@ -1,0 +1,33 @@
+section * {
+  /* border: 1px solid red; */
+}
+.inner {
+  width: 100%;
+  height: 400px;
+  background-color: cyan;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+}
+.inner img {
+  height: 100%;
+  width: 50%;
+  object-fit: contain;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+}
+.overlay {
+  width: 100%;
+  height: 100%;
+  background-color: var;
+  position: absolute;
+  top: 0;
+  right: 40%;
+  margin: 0;
+  padding: 0;
+  border-right: 5px solid white;
+  transform: skewX(15deg);
+}
