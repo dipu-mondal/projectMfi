@@ -920,7 +920,7 @@ FOCUS:------------------Locate us Stylizing-----------------------------------
   border: 1px solid var(--block-border-color);
   padding: 5px;
   box-shadow: 0px 1px 3px var(--shadwo-color);
-  height: 300px;
+  height: 500px;
 }
 .locate_us_holder iframe {
   height: 100% !important;
@@ -1089,7 +1089,7 @@ input[type="button"]:hover {
   padding: 0px !important;
 }
 .serpo_icon_holder img {
-  height: 150px;
+  height: 85px;
   width: auto;
   margin: 0px auto;
 }

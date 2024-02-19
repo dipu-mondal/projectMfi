@@ -331,3 +331,22 @@ allSections.forEach(function (eachSection) {
     opacityTransitionOption
   ).observe(eachSection);
 });
+
+///////////////////////////////////////////
+////////-- IMPLEMENTATION MAP -////////////
+///////////////////////////////////////////
+let mapView;
+navigator.geolocation.getCurrentPosition(getPosition, noPosition);
+
+function getPosition(position) {
+  let { latitude, longitude } = position.coords;
+  mapView = L.map("map").setView([latitude, longitude], 7);
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+  }).addTo(mapView);
+  L.marker([latitude, longitude]).addTo(mapView);
+}
+
+function noPosition() {
+  alert("Could not find your location");
+}

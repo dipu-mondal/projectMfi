@@ -13,7 +13,13 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     />
-
+    <!-- leaflet library css cdn  -->
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
     <!-- linking main style file  -->
     <link rel="stylesheet" href="style/style.css" />
 
@@ -1170,17 +1176,7 @@
       <div class="row title_container">
         <h4 class="section_title">Location</h4>
       </div>
-      <div class="row locate_us_holder">
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.1337076278337!2d90.37081737410138!3d23.77825258770883!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c0b19f46fa13%3A0xdf87b141d77e206e!2z4KaP4Kau4KaG4Kaw4KaPIOCmreCmrOCmqCAo4Kau4Ka-4KaH4KaV4KeN4Kaw4KeL4KaV4KeN4Kaw4KeH4Kah4Ka_4KafIOCmsOCnh-Cml-CngeCmsuCnh-Cmn-CmsOCngCDgpoXgpqXgprDgpr_gpp_gpr8p!5e0!3m2!1sbn!2sbd!4v1707414711432!5m2!1sbn!2sbd"
-          width="100%"
-          height="100%"
-          style="border: 0"
-          allowfullscreen=""
-          loading="lazy"
-          referrerpolicy="no-referrer-when-downgrade"
-        ></iframe>
-      </div>
+      <div class="row locate_us_holder" id="map"></div>
     </section>
     <!-- ----------------------------  -->
     <!-- ----------------------------  -->
@@ -1442,6 +1438,14 @@
       </div>
     </aside>
 
+    <!-- leaflet javascript file  -->
+    <!-- Make sure you put this AFTER Leaflet's CSS -->
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+    <!-- original js file  -->
     <script src="script/script.js"></script>
   </body>
 </html>
