@@ -335,18 +335,36 @@ allSections.forEach(function (eachSection) {
 ///////////////////////////////////////////
 ////////-- IMPLEMENTATION MAP -////////////
 ///////////////////////////////////////////
-let mapView;
+
 navigator.geolocation.getCurrentPosition(getPosition, noPosition);
 
 function getPosition(position) {
-  let { latitude, longitude } = position.coords;
-  mapView = L.map("map").setView([latitude, longitude], 7);
+  const { latitude, longitude } = position.coords;
+  const mapView = L.map("map").setView([latitude, longitude], 7);
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     maxZoom: 19,
   }).addTo(mapView);
-  L.marker([latitude, longitude]).addTo(mapView);
+  multipleMarker(
+    [
+      [latitude, longitude],
+      [23.9916227, 91.0618504],
+      [24.4326925, 90.760999],
+      [25.4326925, 89.760999],
+    ],
+    mapView
+  );
 }
 
 function noPosition() {
   alert("Could not find your location");
+}
+
+function multipleMarker(arr, map) {
+  arr.forEach(function (eachCord) {
+    L.marker(eachCord).addTo(map);
+    // .bindPopup(
+    //   L.popup({ autoClose: false }).setContent("Here Goes Branch Name")
+    // )
+    // .openPopup();
+  });
 }
