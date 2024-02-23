@@ -335,36 +335,81 @@ allSections.forEach(function (eachSection) {
 ///////////////////////////////////////////
 ////////-- IMPLEMENTATION MAP -////////////
 ///////////////////////////////////////////
-
-navigator.geolocation.getCurrentPosition(getPosition, noPosition);
-
-function getPosition(position) {
-  const { latitude, longitude } = position.coords;
-  const mapView = L.map("map").setView([latitude, longitude], 7);
-  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-    maxZoom: 19,
-  }).addTo(mapView);
-  multipleMarker(
-    [
-      [latitude, longitude],
-      [23.9916227, 91.0618504],
-      [24.4326925, 90.760999],
-      [25.4326925, 89.760999],
-    ],
-    mapView
-  );
+class MapOperation {
+  #currentCoord;
+  #mapView;
+  #arrayOfCoordsObj;
+  constructor() {
+    this.#currentCoord;
+    this.#arrayOfCoordsObj;
+    this.#mapView;
+    this._mapInitialization();
+  }
+  //-INITIAL MAP POSITIONING//
+  _mapInitialization() {
+    // this._getCurrentPos();
+    // this._setViewWithCurPosition();
+    this._fetchingCoordsData();
+  }
+  //-GETTING COORDS OF CURRENT POSITION.//
+  _getCurrentPos() {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      const { latitude, longitude } = position.coords;
+      this.#currentCoord = [latitude, longitude];
+    }, this._getNoPosition);
+  }
+  //-SET MAP VIEW TO CURRENT POSITION//
+  _setViewWithCurPosition() {
+    this.#mapView = L.map("map").setView(this.#currentCoord, 7);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+    }).addTo(this.#mapView);
+  }
+  //-SETTING OTHER MARKET
+  _setAdditionalMarker(eachCord) {
+    L.marker(eachCord).addTo(this.#mapView);
+  }
+  //-GETTING SERVER DATA FOR COORDS//
+  _fetchingCoordsData() {
+    this.#arrayOfCoordsObj = [
+      {
+        positionName: "Rajshahi Branch",
+        coords: [23.9916227, 91.0618504],
+      },
+      {
+        positionName: "Vushondi Branch",
+        coords: [24.4326925, 90.760999],
+      },
+      {
+        positionName: "Kakoli Branch",
+        coords: [25.4326925, 89.760999],
+      },
+    ];
+  }
 }
+const locationMap = new MapOperation();
+console.log(locationMap);
 
-function noPosition() {
-  alert("Could not find your location");
-}
-
-function multipleMarker(arr, map) {
-  arr.forEach(function (eachCord) {
-    L.marker(eachCord).addTo(map);
-    // .bindPopup(
-    //   L.popup({ autoClose: false }).setContent("Here Goes Branch Name")
-    // )
-    // .openPopup();
-  });
-}
+//
+//
+// const locationMap = new MapOperation();
+// console.log(locationMap);
+//
+//
+// async function outer() {
+//   await inner1();
+//   await inner2();
+//   await inner3();
+// }
+// function inner1() {
+//   setTimeout(() => {
+//     console.log("data 1");
+//   }, 2000);
+// }
+// function inner2() {
+//   console.log("data 2");
+// }
+// function inner3() {
+//   console.log("data 3");
+// }
+// outer();
