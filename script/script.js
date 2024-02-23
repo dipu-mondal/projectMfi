@@ -347,9 +347,9 @@ class MapOperation {
   }
   //-INITIAL MAP POSITIONING//
   _mapInitialization() {
-    // this._getCurrentPos();
-    // this._setViewWithCurPosition();
     this._fetchingCoordsData();
+    this._getCurrentPos();
+    this._setViewWithCurPosition();
   }
   //-GETTING COORDS OF CURRENT POSITION.//
   _getCurrentPos() {
