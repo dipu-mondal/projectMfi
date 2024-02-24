@@ -335,6 +335,8 @@ allSections.forEach(function (eachSection) {
 ///////////////////////////////////////////
 ////////-- IMPLEMENTATION MAP -////////////
 ///////////////////////////////////////////
+const branchListHolder = document.querySelector(".branch_list_holder");
+const branchListUl = branchListHolder.querySelector("ul");
 class MapOperation {
   #currentCoord;
   #mapView;
@@ -346,24 +348,31 @@ class MapOperation {
     this._mapInitialization();
   }
   //-INITIAL MAP POSITIONING//
-  _mapInitialization() {
-    this._fetchingCoordsData();
-    this._getCurrentPos();
-    this._setViewWithCurPosition();
+  async _mapInitialization() {
+    await this._fetchingCoordsData();
+    await this._getCurrentPos();
+    await this._setViewWithCurPosition();
+    await this._parsingHtml();
   }
   //-GETTING COORDS OF CURRENT POSITION.//
   _getCurrentPos() {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      const { latitude, longitude } = position.coords;
-      this.#currentCoord = [latitude, longitude];
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        this.#currentCoord = [latitude, longitude];
+        resolve("SUCCESS");
+      });
     }, this._getNoPosition);
   }
   //-SET MAP VIEW TO CURRENT POSITION//
   _setViewWithCurPosition() {
-    this.#mapView = L.map("map").setView(this.#currentCoord, 7);
-    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      maxZoom: 19,
-    }).addTo(this.#mapView);
+    return new Promise((resolve, reject) => {
+      this.#mapView = L.map("map").setView(this.#currentCoord, 7);
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+      }).addTo(this.#mapView);
+      resolve("SUCCESS");
+    });
   }
   //-SETTING OTHER MARKET
   _setAdditionalMarker(eachCord) {
@@ -371,45 +380,48 @@ class MapOperation {
   }
   //-GETTING SERVER DATA FOR COORDS//
   _fetchingCoordsData() {
-    this.#arrayOfCoordsObj = [
-      {
-        positionName: "Rajshahi Branch",
-        coords: [23.9916227, 91.0618504],
-      },
-      {
-        positionName: "Vushondi Branch",
-        coords: [24.4326925, 90.760999],
-      },
-      {
-        positionName: "Kakoli Branch",
-        coords: [25.4326925, 89.760999],
-      },
-    ];
+    return new Promise((resolve, reject) => {
+      this.#arrayOfCoordsObj = [
+        {
+          positionName: "Rajshahi Branch",
+          coords: [23.9916227, 91.0618504],
+        },
+        {
+          positionName: "Vushondi Branch",
+          coords: [24.4326925, 90.760999],
+        },
+        {
+          positionName: "Kakoli Branch",
+          coords: [25.4326925, 89.760999],
+        },
+      ];
+      resolve("SUCCESS");
+    });
+  }
+  //-PUSHING HTML OF BRANCH NAME//
+  _parsingHtml() {
+    branchListHolder.querySelector("p").textContent = `Branch list (${
+      this.#arrayOfCoordsObj.length
+    })`;
+    let listHTML = "";
+    this.#arrayOfCoordsObj.forEach((ele) => {
+      this._setAdditionalMarker(ele.coords);
+      listHTML += `<li data-coord="${ele.coords.join("_")}">${
+        ele.positionName
+      }</li>`;
+    });
+    branchListUl.insertAdjacentHTML("beforeend", listHTML);
+    branchListUl.addEventListener("click", this._panningToPosition.bind(this));
+  }
+  _panningToPosition(e) {
+    let targetLi = e.target.closest("li");
+    if (!targetLi) return;
+    branchListUl.querySelectorAll("li").forEach((ele) => {
+      ele.classList.remove("branch_list_active");
+    });
+    targetLi.classList.add("branch_list_active");
+    const coordArr = targetLi.dataset.coord.split("_");
+    this.#mapView.setView(coordArr, 9, { animate: true, pan: { duration: 1 } });
   }
 }
 const locationMap = new MapOperation();
-console.log(locationMap);
-
-//
-//
-// const locationMap = new MapOperation();
-// console.log(locationMap);
-//
-//
-// async function outer() {
-//   await inner1();
-//   await inner2();
-//   await inner3();
-// }
-// function inner1() {
-//   setTimeout(() => {
-//     console.log("data 1");
-//   }, 2000);
-// }
-// function inner2() {
-//   console.log("data 2");
-// }
-// function inner3() {
-//   console.log("data 3");
-// }
-// outer();
