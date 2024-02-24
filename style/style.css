@@ -920,12 +920,14 @@ FOCUS:------------------Locate us Stylizing-----------------------------------
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 5px;
-  height: 500px;
+  height: 400px;
   overflow: hidden;
 }
 .branch_list_holder {
   grid-column: span 1;
   border: 1px solid var(--border-color);
+  margin: 0;
+  padding: 0;
 }
 .locate_us_holder {
   grid-column: span 4;

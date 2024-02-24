@@ -352,7 +352,7 @@ class MapOperation {
     await this._fetchingCoordsData();
     await this._getCurrentPos();
     await this._setViewWithCurPosition();
-    await this._parsingHtml();
+    this._parsingHtml();
   }
   //-GETTING COORDS OF CURRENT POSITION.//
   _getCurrentPos() {
@@ -413,6 +413,7 @@ class MapOperation {
     branchListUl.insertAdjacentHTML("beforeend", listHTML);
     branchListUl.addEventListener("click", this._panningToPosition.bind(this));
   }
+  //-PANNING TO CLICKED COORDINATES//
   _panningToPosition(e) {
     let targetLi = e.target.closest("li");
     if (!targetLi) return;
