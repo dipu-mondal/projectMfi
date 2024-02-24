@@ -421,7 +421,7 @@ class MapOperation {
       ele.classList.remove("branch_list_active");
     });
     targetLi.classList.add("branch_list_active");
-    const coordArr = targetLi.dataset.coord.split("_");
+    let coordArr = targetLi.dataset.coord.split("_");
     this.#mapView.setView(coordArr, 9, { animate: true, pan: { duration: 1 } });
   }
 }
