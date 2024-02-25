@@ -349,30 +349,30 @@ class MapOperation {
   }
   //-INITIAL MAP POSITIONING//
   async _mapInitialization() {
-    await this._fetchingCoordsData();
+    this._fetchingCoordsData();
     await this._getCurrentPos();
-    await this._setViewWithCurPosition();
+    this._setViewWithCurPosition();
     this._parsingHtml();
   }
   //-GETTING COORDS OF CURRENT POSITION.//
   _getCurrentPos() {
     return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        this.#currentCoord = [latitude, longitude];
-        resolve("SUCCESS");
-      });
-    }, this._getNoPosition);
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          this.#currentCoord = [latitude, longitude];
+          resolve("Success");
+        },
+        () => alert("No position found!")
+      );
+    });
   }
   //-SET MAP VIEW TO CURRENT POSITION//
   _setViewWithCurPosition() {
-    return new Promise((resolve, reject) => {
-      this.#mapView = L.map("map").setView(this.#currentCoord, 7);
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 19,
-      }).addTo(this.#mapView);
-      resolve("SUCCESS");
-    });
+    this.#mapView = L.map("map").setView(this.#currentCoord, 7);
+    L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+    }).addTo(this.#mapView);
   }
   //-SETTING OTHER MARKET
   _setAdditionalMarker(eachCord) {
@@ -380,23 +380,20 @@ class MapOperation {
   }
   //-GETTING SERVER DATA FOR COORDS//
   _fetchingCoordsData() {
-    return new Promise((resolve, reject) => {
-      this.#arrayOfCoordsObj = [
-        {
-          positionName: "Rajshahi Branch",
-          coords: [23.9916227, 91.0618504],
-        },
-        {
-          positionName: "Vushondi Branch",
-          coords: [24.4326925, 90.760999],
-        },
-        {
-          positionName: "Kakoli Branch",
-          coords: [25.4326925, 89.760999],
-        },
-      ];
-      resolve("SUCCESS");
-    });
+    this.#arrayOfCoordsObj = [
+      {
+        positionName: "Rajshahi Branch",
+        coords: [23.9916227, 91.0618504],
+      },
+      {
+        positionName: "Vushondi Branch",
+        coords: [24.4326925, 90.760999],
+      },
+      {
+        positionName: "Kakoli Branch",
+        coords: [25.4326925, 89.760999],
+      },
+    ];
   }
   //-PUSHING HTML OF BRANCH NAME//
   _parsingHtml() {
